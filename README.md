@@ -6,9 +6,11 @@ Väike Next.js rakendus, kuhu saab lisada oma kuutellimused (Spotify, Netflix, j
 
 ```bash
 npm install
-cp .env.example .env.local   # Windows: copy .env.example .env.local
+copy .env.example .env.local
 npm run dev
 ```
+
+`copy` on Windowsi käsk, macOS-is ja Linuxis kasuta `cp`. Seejärel pane `.env.local` faili Supabase'i päris väärtused (vt allpool).
 
 Ava http://localhost:3000
 
@@ -35,7 +37,7 @@ Igaüks töötab peamiselt oma failides, siis tekib vähem merge-konflikte.
 |---|---|---|
 | Frontend | | `app/components/*`, `app/page.js`, `app/globals.css` |
 | Backend | | `app/api/subscriptions/route.js`, `app/api/subscriptions/[id]/route.js` |
-| Andmebaas ja integratsioon | | `supabase/schema.sql`, `lib/supabase.js` (tuleb luua), `.env.example` |
+| Andmebaas ja integratsioon | Uku | `supabase/schema.sql`, `lib/supabase.js`, `.env.example` |
 | Testimine (kui on 4. liige) | | `tests/*` (tuleb luua) |
 
 ## API leping
@@ -70,7 +72,7 @@ Praegu loeb `GET` andmed Supabase'ist. `POST` ja `DELETE` vastavad `501` ning on
 
 ## Supabase'i seadistamine (teeb üks inimene)
 
-1. Loo projekt aadressil https://supabase.com
+1. Loo projekt aadressil https://supabase.com (tehtud)
 2. Ava **SQL Editor**, kleebi sinna faili `supabase/schema.sql` sisu ja vajuta **Run**. See loob tabeli, RLS-reeglid ja 3 näidistellimust.
 3. Ava **Project Settings → API Keys** (ja **Data API** URL-i jaoks) ning kopeeri:
    - Project URL
@@ -79,7 +81,7 @@ Praegu loeb `GET` andmed Supabase'ist. `POST` ja `DELETE` vastavad `501` ning on
 
 ## Iga tiimiliikme `.env.local`
 
-Kopeeri `.env.example` nimega `.env.local` ja pane sinna päris väärtused:
+Tee projekti juurkausta (sinna, kus on `package.json`) fail `.env.local`: kas käsuga `copy .env.example .env.local` või VS Code'is **New File**. Pane sinna päris väärtused, mille andmebaasi eest vastutaja saadab privaatselt:
 
 ```
 SUPABASE_URL=https://xxxx.supabase.co
