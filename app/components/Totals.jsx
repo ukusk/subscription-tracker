@@ -1,11 +1,24 @@
-export default function Totals({ subscriptions }) {
-  const monthly = subscriptions.reduce((sum, s) => sum + Number(s.monthly_price), 0);
-  const yearly = monthly * 12;
+import { getTotals, formatEuro } from "./subscriptionHelpers";
+
+// Totals per month and per year. Calculated in cents so the sum is exact.
+export default function Totals({ subscriptions, loading = false }) {
+  const { monthly, yearly, count } = getTotals(subscriptions);
+  const show = (value) => (loading ? "—" : value);
 
   return (
-    <section className="card">
-      <p>Kuus kokku: <strong>{monthly.toFixed(2)} €</strong></p>
-      <p>Aastas kokku: <strong>{yearly.toFixed(2)} €</strong></p>
+    <section className="totals" aria-label="Kokkuvõte" aria-live="polite">
+      <div className="stat stat-main">
+        <span className="stat-label">Aastas kokku</span>
+        <strong className="stat-value num">{show(formatEuro(yearly))}</strong>
+      </div>
+      <div className="stat">
+        <span className="stat-label">Kuus kokku</span>
+        <strong className="stat-value num">{show(formatEuro(monthly))}</strong>
+      </div>
+      <div className="stat">
+        <span className="stat-label">Tellimusi</span>
+        <strong className="stat-value num">{show(count)}</strong>
+      </div>
     </section>
   );
 }
