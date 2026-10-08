@@ -59,16 +59,16 @@ Tellimuse kuju:
 | Meetod | URL | Keha | Edu | Viga |
 |---|---|---|---|---|
 | GET | `/api/subscriptions` | – | `200` tellimuste massiiv | `500 { "error": "..." }` |
-| POST | `/api/subscriptions` | `{ "name", "monthly_price", "billing_day" }` | `201` loodud tellimus | `400 { "error": "..." }` |
-| DELETE | `/api/subscriptions/:id` | – | `204` ilma kehata | `404 { "error": "..." }` |
+| POST | `/api/subscriptions` | `{ "name", "monthly_price", "billing_day" }` | `201` loodud tellimus | `400` vigane keha, `500` andmebaasi viga |
+| DELETE | `/api/subscriptions/:id` | – | `204` ilma kehata | `400` vigane id, `404` ei leitud, `500` andmebaasi viga |
+
+Kõik vead on kujul `{ "error": "..." }`.
 
 Valideerimine serveris:
 
 - `name`: tekst, pärast trimmimist 1–80 märki
-- `monthly_price`: number, suurem kui 0
-- `billing_day`: täisarv 1–31
-
-Praegu loeb `GET` andmed Supabase'ist. `POST` ja `DELETE` vastavad `501` ning on backendi teha (vt `TODO` failides).
+- `monthly_price`: number (või numbriline string, nt `"9.99"`), suurem kui 0 ja väiksem kui 100000000
+- `billing_day`: täisarv 1–31 (või numbriline string, nt `"15"`)
 
 ## Supabase'i seadistamine (teeb üks inimene)
 
